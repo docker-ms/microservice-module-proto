@@ -9,7 +9,6 @@
 ## Memo
 
 ```
-#!bash
   export PB_GO_PROJ=bitbucket.org/v-cube/microservice-module-proto
 
   export PB_GO_DST=${GOPATH}/src/${PB_GO_PROJ}

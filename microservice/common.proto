@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+package microservice;
+
+import "microservice/enums.proto";
+import "microservice/extend_field_opts.proto";
+
+message Self {
+  string                    userId              = 1;
+  string                    userSetId           = 2;
+  string                    companyId           = 3;
+  string                    realName            = 4;
+  string                    displayName         = 5;
+  microservice.Genders      gender              = 6;
+  string                    email               = 7;
+  bool                      isEmailVerified     = 8;
+  microservice.MobilePhone  mobilePhone         = 9;
+  microservice.UserStatuses userStatus          = 10;
+  repeated string           confirmedContacts   = 11 [(microservice.moretags) = "bson:\"confirmedContacts,omitempty\""];
+  repeated string           unconfirmedContacts = 12 [(microservice.moretags) = "bson:\"unconfirmedContacts,omitempty\""];
+  repeated string           activeConversations = 13 [(microservice.moretags) = "bson:\"activeConversations,omitempty\""];
+}
+
+message MemberUser {
+  string               userId      = 1 [(microservice.moretags) = "bson:\"userId,omitempty\""];
+  string               userSetId   = 2 [(microservice.moretags) = "bson:\"userSetId,omitempty\""];
+  string               displayName = 3 [(microservice.moretags) = "bson:\"displayName,omitempty\""];
+  microservice.Genders gender      = 4 [(microservice.moretags) = "bson:\"gender,omitempty\""];
+  int64                lastUpdate  = 5 [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64                createAt    = 6 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+
+message UnconfirmedContact {
+  string userId      = 1;
+  string userSetId   = 2;
+  string displayName = 3;
+}
+
+message ConfirmedContact {
+  string                   userId      = 1  [(microservice.moretags) = "bson:\"userId,omitempty\""];
+  string                   userSetId   = 2  [(microservice.moretags) = "bson:\"userSetId,omitempty\""];
+  string                   displayName = 3  [(microservice.moretags) = "bson:\"displayName,omitempty\""];
+  string                   realName    = 4  [(microservice.moretags) = "bson:\"realName,omitempty\""];
+  microservice.Genders     gender      = 5  [(microservice.moretags) = "bson:\"gender,omitempty\""];
+  string                   email       = 6  [(microservice.moretags) = "bson:\"email,omitempty\""];
+  microservice.MobilePhone mobilePhone = 7  [(microservice.moretags) = "bson:\"mobilePhone,omitempty\""];
+  int64                    lastSeen    = 8  [(microservice.moretags) = "bson:\"lastSeen,omitempty\""];
+  int64                    lastUpdate  = 9  [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64                    createAt    = 10 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message MobilePhone {
+  bool   isVerified                          = 1 [(microservice.moretags) = "bson:\"isVerified,omitempty\""];
+  string alpha3CountryCode                   = 2 [(microservice.moretags) = "bson:\"alpha3CountryCode,omitempty\""];
+  string mobilePhoneNoWithCountryCallingCode = 3 [(microservice.moretags) = "bson:\"mobilePhoneNoWithCountryCallingCode,omitempty\""];
+}
+
+message MemberDetails {
+  int64 joinInAt = 1 [(microservice.moretags) = "bson:\"joinInAt,omitempty\""];
+  int64 leaveAt  = 2 [(microservice.moretags) = "bson:\"leaveAt,omitempty\""];
+}
+
+message BlockedMemberDetails {
+  string blockedBy = 1 [(microservice.moretags) = "bson:\"blockedBy,omitempty\""];
+  string reason    = 2 [(microservice.moretags) = "bson:\"reason,omitempty\""];
+  int64  until     = 3 [(microservice.moretags) = "bson:\"until,omitempty\""];
+}
+
+message ResourceDetails {
+  string thumbnail        = 1 [(microservice.moretags) = "bson:\"thumbnail,omitempty\""];
+  string original         = 2 [(microservice.moretags) = "bson:\"original,omitempty\""];
+  string originalFilename = 3 [(microservice.moretags) = "bson:\"originalFilename,omitempty\""];
+  string mimetype         = 4 [(microservice.moretags) = "bson:\"mimetype,omitempty\""];
+  uint32 size             = 5 [(microservice.moretags) = "bson:\"size,omitempty\""];
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message Group {
+  string                            groupId        = 1 [(microservice.moretags) = "bson:\"groupId,omitempty\""];
+  string                            groupName      = 2 [(microservice.moretags) = "bson:\"groupName,omitempty\""];
+  string                            creator        = 3 [(microservice.moretags) = "bson:\"creator,omitempty\""];
+  repeated string                   managers       = 4 [(microservice.moretags) = "bson:\"managers,omitempty\""];
+  map<string, MemberDetails>        members        = 5 [(microservice.moretags) = "bson:\"members,omitempty\""];
+  map<string, BlockedMemberDetails> blockedMembers = 6 [(microservice.moretags) = "bson:\"blockedMembers,omitempty\""];
+  int64                             lastUpdate     = 7 [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64                             createAt       = 8 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+
+message Conversation {
+  string                            conversationId     = 1 [(microservice.moretags) = "bson:\"conversationId,omitempty\""];
+  microservice.ConversationTypes    conversationType   = 2 [(microservice.moretags) = "bson:\"conversationType,omitempty\""];
+  map<string, MemberDetails>        members            = 3 [(microservice.moretags) = "bson:\"members,omitempty\""];
+  string                            forGroupId         = 4 [(microservice.moretags) = "bson:\"forGroupId,omitempty\""];
+  microservice.ConversationStatuses conversationStatus = 5 [(microservice.moretags) = "bson:\"conversationStatus,omitempty\""];
+  int64                             lastUpdate         = 6 [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64                             createAt           = 7 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+
+message Message {
+  string                       messageId         = 1  [(microservice.moretags) = "bson:\"messageId,omitempty\""];
+  microservice.MessageTypes    messageType       = 2  [(microservice.moretags) = "bson:\"messageType,omitempty\""];
+  string                       content           = 3  [(microservice.moretags) = "bson:\"content,omitempty\""];
+  repeated ResourceDetails     resources         = 4  [(microservice.moretags) = "bson:\"resources,omitempty\""];
+  string                       sender            = 5  [(microservice.moretags) = "bson:\"sender,omitempty\""];
+  string                       toConversationId  = 6  [(microservice.moretags) = "bson:\"toConversationId,omitempty\""];
+  repeated string              mentionedUsers    = 7  [(microservice.moretags) = "bson:\"mentionedUsers,omitempty\""];
+  repeated string              mentionedMessages = 8  [(microservice.moretags) = "bson:\"mentionedMessages,omitempty\""];
+  microservice.MessageStatuses messageStatus     = 9  [(microservice.moretags) = "bson:\"messageStatus,omitempty\""];
+  int64                        lastUpdate        = 10 [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64                        createAt          = 11 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+
+message MessageReadStatus {
+  string messageId        = 1 [(microservice.moretags) = "bson:\"messageId,omitempty\""];
+  string toConversationId = 2 [(microservice.moretags) = "bson:\"toConversationId,omitempty\""];
+  string reader           = 3 [(microservice.moretags) = "bson:\"reader,omitempty\""];
+  int64  when             = 4 [(microservice.moretags) = "bson:\"when,omitempty\""];
+  int64  lastUpdate       = 5 [(microservice.moretags) = "bson:\"lastUpdate,omitempty\""];
+  int64  createAt         = 6 [(microservice.moretags) = "bson:\"createAt,omitempty\""];
+}
+
+

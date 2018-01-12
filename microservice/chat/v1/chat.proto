@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.chat.v1;
+
+import "microservice/enums.proto";
+import "microservice/common.proto";
+
+message Message {
+  string lang = 1;
+
+  string messageId = 2;
+  microservice.MessageTypes messageType = 3;
+
+  string content = 4;
+  repeated microservice.ResourceDetails resources = 5;
+
+  string sender = 6;
+
+  string toConversationId = 7;
+  microservice.ConversationTypes conversationType = 8;
+  string forGroupId = 9;
+
+  repeated string mentionedUserUserIds = 10;
+  repeated string mentionedMessageMessageIds = 11;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message CheckQualificationAndSaveMessageRes {
+  string messageId = 1;
+  
+  map<string, microservice.MemberDetails> targetUsers = 2;
+
+  repeated string mentionedUserUserIds = 3;
+  repeated Message mentionedMessages = 4;
+
+  message Aux {
+    repeated string managerUserIds = 1;
+    map<string, microservice.BlockedMemberDetails> blockedMembers = 2;
+  }
+  Aux aux = 5;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message CreateConversationReq {
+  string conversationId = 1;
+  microservice.ConversationTypes conversationType = 2;
+  repeated string memberUserIds = 3;
+
+  bool isTemp121ConversationEnabled = 4;
+  bool isTempGroupEnabled = 5;
+
+  string creatorUserId = 6;
+
+  string tester = 15;
+}
+
+message CreateConversationRes {
+  string conversationId = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message DeleteConversationReq {
+  oneof id {
+    string conversationId = 1;
+    string forGroupId = 2;
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

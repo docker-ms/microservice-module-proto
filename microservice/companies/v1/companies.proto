@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.companies.v1;
+
+import "microservice/common.proto";
+
+message CreateCompanyReq {
+  string lang = 1;
+
+  string companyName = 2;
+  string email = 3;
+  string address = 4;
+
+  microservice.MobilePhone mobilePhone = 5;
+
+  string setUpBy = 6;
+  string tester = 7;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

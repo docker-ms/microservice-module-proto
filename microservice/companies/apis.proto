@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "companies";
+
+package microservice.companies;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/companies/v1/companies.proto";
+
+service Companies {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc CreateCompanyV1(microservice.companies.v1.CreateCompanyReq) returns (microservice.BoolRes) {}
+
+}
+
+

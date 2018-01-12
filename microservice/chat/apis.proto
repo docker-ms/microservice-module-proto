@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "chat";
+
+package microservice.chat;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/chat/v1/chat.proto";
+
+service Chat {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+
+
+  rpc _CreateConversationV1(microservice.chat.v1.CreateConversationReq) returns (microservice.chat.v1.CreateConversationRes) {}
+
+  rpc _DeleteConversationV1(microservice.chat.v1.DeleteConversationReq) returns (microservice.BoolRes) {}
+
+  rpc _CheckQualificationAndSaveMessageV1(microservice.chat.v1.Message) returns (microservice.chat.v1.CheckQualificationAndSaveMessageRes) {}
+
+}
+
+

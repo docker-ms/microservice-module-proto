@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "groups";
+
+package microservice.groups;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/groups/v1/groups.proto";
+
+service Groups {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc CreateGroupV1(microservice.groups.v1.CreateGroupReq) returns (microservice.BoolRes) {}
+
+  rpc InviteUserToGroupV1(microservice.groups.v1.InviteUserToGroupReq) returns (microservice.BoolRes) {}
+
+  rpc LeaveGroupV1(microservice.groups.v1.LeaveGroupReq) returns (microservice.BoolRes) {}
+
+  rpc _DeleteGroupV1(microservice.groups.v1.DeleteGroupReq) returns (microservice.BoolRes) {}
+
+}
+
+

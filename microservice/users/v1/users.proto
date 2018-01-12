@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.users.v1;
+
+import "microservice/enums.proto";
+import "microservice/common.proto";
+
+message EnterpriseUserSingleRegistReq {
+  string lang = 1;
+
+  string companyId = 2;
+  string realName = 3;
+  string email = 4;
+
+  // enums
+  microservice.Genders gender = 5;
+
+  microservice.MobilePhone mobilePhone = 6;
+
+  string tester = 7;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message User {
+  string realName = 1;
+  string email = 2;
+  microservice.Genders gender = 3;
+  microservice.MobilePhone mobilePhone = 4;
+  string tester = 15;
+}
+
+message EnterpriseUserStreamBatchRegistReq {
+  string lang = 1;
+  uint32 total = 2;
+
+  string companyId = 3;
+  repeated User users = 4;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message AddContactReq {
+  string lang = 1;
+
+  string initiatorUserId = 2;
+  repeated string targetUserUserIds = 3;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message ConfirmAddingContactReq {
+  string lang = 1;
+
+  string initiatorUserId = 2;
+  string acceptorUserId = 3;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message RemoveContactReq {
+  string lang = 1;
+
+  string initiatorUserId = 2;
+  string targetUserUserId = 3;
+  bool twoWay = 4;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message Profile {
+  string lang = 1;
+
+  string userId = 2;
+
+  string userSetId = 3;
+
+  // For admin only?
+  string realName = 4;
+
+  string displayName = 5;
+
+  // For admin only?
+  microservice.Genders gender = 6;
+  
+  string email = 7;
+  microservice.MobilePhone mobilePhone = 8;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message Criteria {
+  string requestorUserId = 1;
+  string criteriaStr     = 2;
+}
+
+message UserMutations {
+  // Full user fields, permissions control required.
+  repeated microservice.Self users = 1;
+
+  repeated microservice.MemberUser memberUsers = 2;
+
+  repeated microservice.UnconfirmedContact unconfirmedContacts = 3;
+
+  repeated microservice.ConfirmedContact confirmedContacts = 4;
+}
+
+

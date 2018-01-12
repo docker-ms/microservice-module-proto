@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+package microservice;
+
+message BoolRes {
+  oneof key {
+    bool res     = 1;
+    bool success = 2;
+  }
+}
+
+

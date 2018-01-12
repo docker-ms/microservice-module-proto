@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+package microservice;
+
+message HealthCheckRes {
+  string msServiceTag = 1;
+}
+
+

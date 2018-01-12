@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.lsync.v1;
+
+import "microservice/empty.proto";
+import "microservice/enums.proto";
+import "microservice/common.proto";
+import "microservice/extend_field_opts.proto";
+
+message LsyncReq {
+  string userId   = 1;
+  string deviceId = 2;
+  int64  version  = 3;
+  uint64 bucketId = 4;
+}
+
+message SnapshotByConv {
+  uint64                                  id                  = 1;
+  microservice.Conversation               conversation        = 2;
+  repeated microservice.MemberUser        memberUsers         = 3;
+  microservice.Group                      group               = 4;
+  repeated microservice.Message           messages            = 5;
+  repeated microservice.MessageReadStatus messageReadStatuses = 6;
+}
+
+message UserSnapshotsMap {
+  uint64                          id             = 1;
+  string                          userId         = 2;
+  repeated uint64                 snapshotIds    = 3;
+  map<uint64, microservice.Empty> snapshotIdsMap = 4 [(microservice.jsontags) = "-"];
+}
+
+message ChangesOnUser {
+  map<string, microservice.Empty> left                  = 1;
+  map<string, microservice.MemberUser>  newJoinedIn     = 2;
+  map<string, microservice.MemberUser>  updated         = 3;
+  map<string, microservice.Empty> tmpNewJoinedInUserIds = 4 [(microservice.jsontags) = "-"];
+}
+
+message Delta {
+  uint64                                  id                  = 1;
+  microservice.Conversation               conversation        = 2;
+  ChangesOnUser                           users               = 3;
+  microservice.Group                      group               = 4;
+  repeated microservice.Message           messages            = 5;
+  repeated microservice.MessageReadStatus messageReadStatuses = 6;
+}
+
+message LsyncRes {
+  microservice.LsyncDataPackTypes lsyncDataPackType = 1;
+  DeviceBucketContent             bucketContent     = 2;
+  Delta                           delta             = 3;
+  SnapshotByConv                  snapshot          = 4;
+  DeviceBucketContent             complement        = 5;
+  int64                           newVersion        = 6;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message ChangesOnNew {
+  map<string, microservice.ConfirmedContact>   confirmedContacts   = 1;
+  map<string, microservice.UnconfirmedContact> unconfirmedContacts = 2;
+  map<string, microservice.MemberUser>         memberUsers         = 3;
+  map<string, microservice.Group>              groups              = 4;
+  map<string, microservice.Conversation>       conversations       = 5;
+  map<string, microservice.Message>            messages            = 6;
+  map<string, microservice.MessageReadStatus>  messageReadStatuses = 7;
+}
+
+message UpdatesOnGroupOrConversation {
+  microservice.Group        group        = 1;
+  microservice.Conversation conversation = 2;
+  ChangesOnUser             users        = 3;
+}
+
+message ChangesOnUpdated {
+  map<string, UpdatesOnGroupOrConversation>    updatesOnGroup               = 1;
+  map<string, UpdatesOnGroupOrConversation>    updatesOnConversation        = 2;
+  map<string, microservice.ConfirmedContact>   updatesOnConfirmedContacts   = 3;
+  map<string, microservice.UnconfirmedContact> updatesOnUnconfirmedContacts = 4;
+}
+
+message ChangesOnDeleted {
+  map<string, microservice.Empty> deletedGroupIds              = 1;
+  map<string, microservice.Empty> deletedConversationIds       = 2;
+  map<string, microservice.Empty> deletedConfirmedContactIds   = 3;
+  map<string, microservice.Empty> deletedUnconfirmedContactIds = 4;
+  map<string, microservice.Empty> deletedMessageIds            = 5;
+}
+
+message DeviceBucketContent {
+  string           userId         = 1;
+  string           deviceId       = 2;
+
+  bool             isRecordFrozen = 3;
+  ChangesOnNew     new            = 4;
+  ChangesOnUpdated updated        = 5;
+  ChangesOnDeleted deleted        = 6;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message UserDevicesBucketsMap {
+  map<string, bool> deviceId2DeviceBucketStatus = 1;
+  int64             lastSeen                    = 2;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message AckReq {
+  string userId   = 1;
+  string deviceId = 2;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message QueryLastSeenReq {
+  string          querierUserId = 1;
+  repeated string targetUserIds = 2;
+}
+
+message QueryLastSeenRes {
+  map<string, int64> usersLastSeen = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

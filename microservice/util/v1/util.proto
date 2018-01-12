@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.util.v1;
+
+import "microservice/common.proto";
+
+message FieldInfo {
+  string lang = 1;
+
+  oneof field {
+    string userSetId = 2;
+    string email = 3;
+    microservice.MobilePhone mobilePhone = 4;
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message CsvTplGenerationReq {
+  string lang = 1;
+
+  string tplId = 2;
+
+  oneof extraParams {
+    EnterpriseUserBatchRegistCsvTpl enterpriseUserBatchRegistCsvTplParams = 3;
+  }
+}
+
+message EnterpriseUserBatchRegistCsvTpl {
+  string companyId = 1;
+}
+
+message CsvTplGenerationRes {
+  string csvStr = 1;
+  string filename = 2;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

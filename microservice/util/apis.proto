@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "util";
+
+package microservice.util;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/util/v1/util.proto";
+
+service Util {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc CheckFieldExistenceV1(microservice.util.v1.FieldInfo) returns (microservice.BoolRes) {}
+
+  rpc GenerateCsvTplV1(microservice.util.v1.CsvTplGenerationReq) returns (microservice.util.v1.CsvTplGenerationRes) {}
+
+}
+
+

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.auth.v1;
+
+import "microservice/common.proto";
+
+message EmailVerificationReq {
+  string lang  = 1;
+
+  string email = 2;
+
+  oneof verificationType {
+    bool isCompany = 3;
+  }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message Credential {
+  string lang = 1;
+
+  oneof loginWay {
+    string                   email       = 2;
+    string                   userSetId   = 3;
+    microservice.MobilePhone mobilePhone = 4;
+    string                   branchCode  = 5;
+  }
+  string pwd      = 6;
+
+  string deviceId = 7;
+}
+
+message TokenPair {
+  string accessToken  = 1;
+  string refreshToken = 2;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

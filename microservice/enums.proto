@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+package microservice;
+
+enum Genders {
+  U = 0;
+  F = 1;
+  M = 2;
+  O = 3;
+}
+
+enum UserStatuses {
+  INITIALIZED = 0;
+  ACTIVE      = 1;
+  LOCKED      = 2;
+  DELETED     = 3;
+}
+
+enum ConversationTypes {
+  ONE2ONE      = 0;
+  TEMP_ONE2ONE = 1;
+  GROUP        = 2;
+  TEMP_GROUP   = 3;
+}
+
+enum ConversationStatuses {
+  ACCESSIBLE = 0;
+  FROZEN     = 1;
+  DESTROYED  = 2;
+}
+
+enum MessageTypes {
+  TEXT  = 0;
+  FILE  = 1;
+  IMAGE = 2;
+  AUDIO = 3;
+  VIDEO = 4;
+  MULTI = 5;
+}
+
+enum MessageStatuses {
+  NORMAL   = 0;
+  RECALLED = 1;
+}
+
+enum LsyncDataPackTypes {
+  BUCKET     = 0;
+  DELTA      = 1;
+  SNAPSHOT   = 2;
+  COMPLEMENT = 3;
+}
+
+

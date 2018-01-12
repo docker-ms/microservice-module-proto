@@ -1,0 +1,10 @@
+#
+## We use this one to compile code.
+#
+go get github.com/gogo/protobuf/protoc-gen-gofast
+
+protoc -I=. --gofast_out=plugins=grpc:${GOPATH}/src/lsync/vendor ./microservice/*.proto
+protoc -I=. --gofast_out=plugins=grpc:${GOPATH}/src/lsync/vendor ./microservice/lsync/*.proto
+protoc -I=. --gofast_out=plugins=grpc:${GOPATH}/src/lsync/vendor ./microservice/lsync/v1/*.proto
+
+

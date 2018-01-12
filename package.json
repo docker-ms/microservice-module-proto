@@ -1,0 +1,12 @@
+{
+  "name": "microservice-protos",
+  "version": "0.0.1",
+  "description": "This is our microservices '*.proto' center.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/v-cube/microservice-module-proto.git"
+  }
+}

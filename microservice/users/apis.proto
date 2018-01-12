@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "users";
+
+package microservice.users;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/users/v1/users.proto";
+
+service Users {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc EnterpriseUserSingleRegistV1(microservice.users.v1.EnterpriseUserSingleRegistReq) returns (microservice.BoolRes) {}
+
+  rpc EnterpriseUserStreamBatchRegistV1(stream microservice.users.v1.EnterpriseUserStreamBatchRegistReq) returns (microservice.BoolRes) {}
+
+  rpc AddContactV1(microservice.users.v1.AddContactReq) returns (microservice.BoolRes) {}
+
+  rpc ConfirmAddingContactV1(microservice.users.v1.ConfirmAddingContactReq) returns (microservice.BoolRes) {}
+
+  rpc RemoveContactV1(microservice.users.v1.RemoveContactReq) returns (microservice.BoolRes) {}
+
+  rpc UpdateProfileV1(microservice.users.v1.Profile) returns (microservice.BoolRes) {}
+
+  // All APIs below are for GraphQL support.
+  rpc QueryUsersV1(microservice.users.v1.Criteria) returns (microservice.users.v1.UserMutations) {}
+
+}
+
+

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "auth";
+
+package microservice.auth;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/auth/v1/auth.proto";
+
+service Auth {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc VerifyEmailV1(microservice.auth.v1.EmailVerificationReq) returns (microservice.BoolRes) {}
+
+  rpc SignInV1(microservice.auth.v1.Credential) returns (microservice.auth.v1.TokenPair) {}
+
+  rpc ExchangeTokenV1(microservice.auth.v1.TokenPair) returns (microservice.auth.v1.TokenPair) {}
+
+}
+
+

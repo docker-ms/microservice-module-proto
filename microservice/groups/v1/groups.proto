@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "v1";
+
+package microservice.groups.v1;
+
+message CreateGroupReq {
+  string lang = 1;
+
+  string groupId = 2;
+  string groupName = 3;
+  string creatorUserId = 4;
+  repeated string memberUserIds = 5;
+
+  string tester = 15;
+}
+
+message InviteUserToGroupReq {
+  string lang = 1;
+
+  string toGroupId = 2;
+  string inviterUserId = 3;
+  repeated string inviteeUserIds = 4;
+}
+
+message LeaveGroupReq {
+  string lang = 1;
+
+  string initiatorUserId = 2;
+  string fromGroupId = 3;
+  repeated string targetUserUserIds = 4;
+  string reason = 5;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message DeleteGroupReq {
+  string groupId = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

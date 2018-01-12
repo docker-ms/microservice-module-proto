@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option optimize_for = SPEED;
+
+option go_package = "lsync";
+
+package microservice.lsync;
+
+import "microservice/empty.proto";
+import "microservice/bool_res.proto";
+import "microservice/health_check.proto";
+import "microservice/lsync/v1/lsync.proto";
+
+service Lsync {
+
+  rpc HealthCheck(microservice.Empty) returns (microservice.HealthCheckRes) {}
+
+  rpc LsyncV1(microservice.lsync.v1.LsyncReq) returns (stream microservice.lsync.v1.LsyncRes) {}
+
+  rpc AckV1(microservice.lsync.v1.AckReq) returns (microservice.BoolRes) {}
+
+  rpc QueryLastSeenV1(microservice.lsync.v1.QueryLastSeenReq) returns (microservice.lsync.v1.QueryLastSeenRes) {}
+
+  rpc _CacheV1(microservice.lsync.v1.DeviceBucketContent) returns (microservice.BoolRes) {}
+
+}
+
+
